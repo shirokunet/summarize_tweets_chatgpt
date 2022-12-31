@@ -1,0 +1,10 @@
+---
+twitter_consumer_key:        '<twitter_consumer_key>'
+twitter_consumer_key_secret: '<twitter_consumer_key_secret>'
+twitter_bearer_token:        '<twitter_bearer_token>'
+twitter_access_token:        '<twitter_access_token>'
+twitter_access_token_secret: '<twitter_access_token_secret>'
+twitter_user_id:             '<twitter_user_id>'
+twitter_since_id:            '<twitter_since_id>'
+twitter_filter_worlds:       ['<twitter_filter_worlds>',]
+chatgpt_session_token:       '<chatgpt_session_token>'
