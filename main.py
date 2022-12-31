@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import datetime
+import pprint
 import pytz
 import re
 import sys
@@ -39,40 +40,55 @@ def main():
         if tweet_filterd:
             tweet_data.append([tweet.data['created_at'],tweet_filterd])
     tweet_data.reverse()
-    print(tweet_data)
+    # print(tweet_data)
 
-    # Prepare input string
+    # Prepare tweet text list
     convertJstDate(tweet_data[0][0])
     input_str_month = []
     for i in range(12):
-        input_str_month.append('')
+        input_str_month.append([])
     for tweet in tweet_data:
-        tweet_splited = tweet[1].split('\n')
         month, date_s = convertJstDate(tweet[0])
+        tweet_splited = tweet[1].split('\n')
         for tweet_s in tweet_splited:
             if tweet_s:
-                for twitter_filter_world in cfgs['twitter_filter_worlds']:
-                    if not twitter_filter_world in tweet_s:
-                        input_str_month[month-1] += '- '+ date_s + tweet_s + '\n'
-    input_str_quater = []
-    for i in range(4):
-        input_str_quater.append(input_str_month[i*3] + input_str_month[i*3+1] + input_str_month[i*3+2])
-    input_str_quater[0].splitlines(True)
+                input_str_month[month-1].append([date_s,tweet_s])
 
     # ChatGPT
     chat_gpt_api = ChatGPT(cfgs['chatgpt_session_token'], verbose=False)  # auth with session token
     chat_gpt_api.reset_conversation()
     chat_gpt_api.clear_conversations()
-    send_data = args[1] + '\n' + input_str_month[0]
-    print('\n',send_data)
-    resp = chat_gpt_api.send_message(send_data.splitlines(True))
-    print(resp['message'],'\n')
 
     while True:
-        send_data = input("会話を続ける場合は入力して下さい。: ")
+        summarize_month = input("\n何月の Tweetを要約しますか？: ")
+
+        target = input_str_month[int(summarize_month)-1]
+        print('Tweet 情報は以下になります。\n')
+
+        # filter worlds
+        for twitter_filter_world in cfgs['twitter_filter_worlds']:
+            target = [s for s in target if not twitter_filter_world in s[1]]
+        pprint.pprint(target)
+        print(len(target))
+
+        # prepare send msgs
+        start = int(input("ChatGPT へ送信する開始行数を入力して下さい。: "))
+        end = int(input("ChatGPT へ送信する終了行数を入力して下さい。: "))
+        input_msg = input("ChatGPT への要求文を入力して下さい。: ")
+        send_data = input_msg + '\n'
+        for date_and_tweet in target[start:end]:
+            send_data += '- '+ date_and_tweet[0] + date_and_tweet[1] + '\n'
+        # pprint.pprint(send_data)
+
         resp = chat_gpt_api.send_message(send_data)
-        print(resp['message'],'\n')
+        print(resp['message'])
+
+        while True:
+            input_msg = input("会話を終了する場合は END を、修正要求がある場合は文章を入力して下さい。: ")
+            if input_msg == 'END':
+                break
+            resp = chat_gpt_api.send_message(input_msg)
+            print(resp['message'])
 
 if __name__ == '__main__':
     main()
-
