@@ -9,5 +9,5 @@ $ cp example_params.yml params.yml
 
 - run.
 ```bash
-$ python3 chatgpt.py '以下の日記の箇条書きをブログに掲載するのに適した文 章へ約1000文字で要約して下さい。'
+$ python3 main.py '以下の箇条書きをブログに掲載可能な約500文字の自然体の^C章に要約して下さい。'
 ```

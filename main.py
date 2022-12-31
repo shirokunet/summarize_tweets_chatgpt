@@ -60,12 +60,19 @@ def main():
     input_str_quater[0].splitlines(True)
 
     # ChatGPT
-    chat_gpt_api = ChatGPT(cfgs['chatgpt_session_token'])  # auth with session token
+    chat_gpt_api = ChatGPT(cfgs['chatgpt_session_token'], verbose=False)  # auth with session token
     chat_gpt_api.reset_conversation()
     chat_gpt_api.clear_conversations()
-    send_data = args[0] + '\n' + input_str_month[0]
+    send_data = args[1] + '\n' + input_str_month[0]
     print('\n',send_data)
     resp = chat_gpt_api.send_message(send_data.splitlines(True))
+    print(resp['message'],'\n')
+
+    while True:
+        send_data = input("会話を続ける場合は入力して下さい。: ")
+        resp = chat_gpt_api.send_message(send_data)
+        print(resp['message'],'\n')
 
 if __name__ == '__main__':
     main()
+

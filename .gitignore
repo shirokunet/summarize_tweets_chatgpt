@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 
 params.yml
+reset_conversation_failed.png

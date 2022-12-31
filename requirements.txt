@@ -1,0 +1,2 @@
+tweepy==4.12.1
+pyChatGPT==0.4.1
