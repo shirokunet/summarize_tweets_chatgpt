@@ -56,8 +56,8 @@ def main():
 
     # ChatGPT
     chat_gpt_api = ChatGPT(cfgs['chatgpt_session_token'], verbose=False)  # auth with session token
-    chat_gpt_api.reset_conversation()
-    chat_gpt_api.clear_conversations()
+    # chat_gpt_api.reset_conversation()
+    # chat_gpt_api.clear_conversations()
 
     while True:
         summarize_month = input("\n何月の Tweetを要約しますか？: ")
