@@ -10,5 +10,5 @@ $ cp example_params.yml params.yml
 
 - run.
 ```bash
-$ python3 main.py '以下の箇条書きをブログに掲載可能な約500文字の自然体の^C章に要約して下さい。'
+$ python3 main.py '以下の箇条書きをブログに掲載可能な約500文字の自然体の文章に要約して下さい。'
 ```
